@@ -1,22 +1,196 @@
-<?xml version="1.0"?>
-<flowgorithm fileversion="2.11">
-  <function name="Main" type="None" variable="">
-    <parameters />
-    <body>
-      <declare name="a" type="Integer" array="False" size=""/>
-      <declare name="b" type="Integer" array="False" size=""/>
-      <declare name="c" type="Integer" array="False" size=""/>
-      <declare name="delta" type="Integer" array="False" size=""/>
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Obliczanie delty (Δ)</title>
+  <style>
+    :root{
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #1f2937;
+      background: #f8fafc;
+    }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .card{
+      background:white;
+      border-radius:12px;
+      box-shadow:0 8px 24px rgba(16,24,40,0.08);
+      padding:24px;
+      width:100%;
+      max-width:520px;
+    }
+    h1{
+      margin:0 0 8px 0;
+      font-size:20px;
+    }
+    p.lead{
+      margin:0 0 18px 0;
+      color:#475569;
+      font-size:14px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:16px;
+    }
+    label{
+      font-size:13px;
+      display:block;
+      margin-bottom:6px;
+      color:#334155;
+    }
+    input[type="number"]{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #e6eef6;
+      font-size:15px;
+      box-sizing:border-box;
+    }
+    .controls{
+      display:flex;
+      gap:8px;
+      margin-bottom:12px;
+    }
+    button{
+      padding:10px 14px;
+      border-radius:10px;
+      border:0;
+      cursor:pointer;
+      font-weight:600;
+    }
+    button#calc{
+      background:#0ea5a4;
+      color:white;
+    }
+    button#reset{
+      background:#e6eef6;
+      color:#0f172a;
+    }
+    .result{
+      padding:12px;
+      border-radius:8px;
+      background:#f1f5f9;
+      font-size:16px;
+      color:#0f172a;
+      min-height:44px;
+      display:flex;
+      align-items:center;
+    }
+    .error{
+      color:#b91c1c;
+      font-size:14px;
+      margin-top:8px;
+    }
+    footer{
+      margin-top:14px;
+      font-size:12px;
+      color:#64748b;
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-labelledby="title">
+    <h1 id="title">Kalkulator delty (Δ)</h1>
+    <p class="lead">Podaj współczynniki równania kwadratowego <code>ax² + bx + c = 0</code>. Strona obliczy deltę.</p>
 
-      <output expression="&quot;Program do obliczania delty: Δ = b^2 - 4ac&quot;" newline="True"/>
+    <form id="deltaForm" autocomplete="off" novalidate>
+      <div class="grid">
+        <div>
+          <label for="a">a (przy x²)</label>
+          <input id="a" name="a" type="number" step="any" inputmode="decimal" placeholder="np. 1" required>
+        </div>
+        <div>
+          <label for="b">b (przy x)</label>
+          <input id="b" name="b" type="number" step="any" inputmode="decimal" placeholder="np. -3" required>
+        </div>
+        <div style="grid-column:1 / -1;">
+          <label for="c">c (wyraz wolny)</label>
+          <input id="c" name="c" type="number" step="any" inputmode="decimal" placeholder="np. 2" required>
+        </div>
+      </div>
 
-      <input variable="a" prompt="Podaj a:"/>
-      <input variable="b" prompt="Podaj b:"/>
-      <input variable="c" prompt="Podaj c:"/>
+      <div class="controls">
+        <button id="calc" type="submit">Oblicz deltę</button>
+        <button id="reset" type="button">Wyczyść</button>
+      </div>
 
-      <assign variable="delta" expression="b*b - 4*a*c"/>
+      <div class="result" id="result" aria-live="polite">Delta: —</div>
+      <div class="error" id="error" role="status" aria-live="assertive" style="display:none;"></div>
+    </form>
 
-      <output expression="&quot;Delta wynosi: &quot; + delta" newline="True"/>
-    </body>
-  </function>
-</flowgorithm>
+    <footer>Wynik jest liczony jako <code>Δ = b² − 4·a·c</code>. Wyświetlana jest tylko delta.</footer>
+  </main>
+
+  <script>
+    (function(){
+      const form = document.getElementById('deltaForm');
+      const aIn = document.getElementById('a');
+      const bIn = document.getElementById('b');
+      const cIn = document.getElementById('c');
+      const resultEl = document.getElementById('result');
+      const errorEl = document.getElementById('error');
+      const resetBtn = document.getElementById('reset');
+
+      function showError(msg){
+        errorEl.style.display = 'block';
+        errorEl.textContent = msg;
+      }
+      function clearError(){
+        errorEl.style.display = 'none';
+        errorEl.textContent = '';
+      }
+
+      form.addEventListener('submit', function(ev){
+        ev.preventDefault();
+        clearError();
+
+        // Parsowanie wartości jako liczby zmiennoprzecinkowej
+        const a = parseFloat(aIn.value);
+        const b = parseFloat(bIn.value);
+        const c = parseFloat(cIn.value);
+
+        // Walidacja
+        if (Number.isNaN(a) || Number.isNaN(b) || Number.isNaN(c)) {
+          showError('Wszystkie pola muszą zawierać prawidłowe liczby.');
+          resultEl.textContent = 'Delta: —';
+          return;
+        }
+
+        // (Opcjonalnie) sprawdź, czy a != 0 — jeśli chcesz wyłącznie delta, nie jest to konieczne,
+        // ale często równanie z a=0 to nie równanie kwadratowe.
+        // if (a === 0) { showError('Współczynnik a nie może być równy 0 (to nie jest równanie kwadratowe).'); return; }
+
+        const delta = b * b - 4 * a * c;
+
+        // Formatowanie: pokaż maksymalnie 10 miejsc po przecinku, usuń zbędne zera
+        const formatted = Number.isFinite(delta)
+          ? parseFloat(delta.toFixed(10)).toString()
+          : String(delta);
+
+        resultEl.textContent = 'Delta: ' + formatted;
+      });
+
+      resetBtn.addEventListener('click', function(){
+        aIn.value = '';
+        bIn.value = '';
+        cIn.value = '';
+        resultEl.textContent = 'Delta: —';
+        clearError();
+        aIn.focus();
+      });
+
+      // Ustaw fokus
+      aIn.focus();
+    })();
+  </script>
+</body>
+</html>
