@@ -1,6 +1,27 @@
-$(document).ready(function(){
-    // Use one event handler for both <td> and <p>
-    $(document).on("click", "td, p", function(){
-        $(this).fadeOut("fast");
-    });
-});
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    long long total = accumulate(a.begin(), a.end(), 0LL);
+    long long left_sum = 0;
+    long long min_diff = LLONG_MAX;
+
+    // Przecięcie między i a i+1 (czyli i < n-1)
+    for (int i = 0; i < n - 1; i++) {
+        left_sum += a[i];
+        long long right_sum = total - left_sum;
+        long long diff = abs(left_sum - right_sum);
+        min_diff = min(min_diff, diff);
+    }
+
+    cout << min_diff << "\n";
+    return 0;
+}
