@@ -11,34 +11,27 @@
             text-align: center;
             margin-top: 100px;
         }
-        .avatar img {
-            transition: transform 1s ease-in-out;
-        }
     </style>
 </head>
 <body>
 
-<div class="avatar">
-    <img id="avatar" src="https://www.khanacademy.org/images/avatars/svg/aqualine-sapling.svg" width="150">
-    <h1>Aqualine</h1>
-</div>
+    <div class="avatar">
+        <img src="https://www.khanacademy.org/images/avatars/svg/aqualine-sapling.svg" width="150">
+        <h1>Aqualine!</h1>
+    </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script>
-// prosty efekt animacji — awatar unosi się i obraca
-let angle = 0;
-let up = true;
-
-setInterval(function() {
-    // ruch góra/dół
-    let y = up ? -10 : 10;
-    $("#avatar").css("transform", "translateY(" + y + "px) rotate(" + angle + "deg)");
-    
-    // zmiana kierunku
-    up = !up;
-    angle += 10;
-}, 500);
-</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        // Gdy strona się załaduje, uruchom animację
+        $(function() {
+            // Wybierz obrazek wewnątrz .avatar (używając selektora potomka)
+            $(".avatar img").animate(
+                {
+                    width: "250px"   // powiększ awatar
+                },
+                1000                 // czas trwania animacji: 1 sekunda
+            );
+        });
+    </script>
 </body>
 </html>
-Ta strona wyświetla ikonkę awatara razem z jego nazwą (Aqualine!). Jako pierwszy krok użyj funkcji JQuery 'animate' do powiększenia Aqualine'a. Wskazówka: Do wybrania obrazka spróbuj wykorzystać CSS-owy selektor potomka (ang 'descendant selector').
