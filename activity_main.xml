@@ -41,3 +41,4 @@ setInterval(function() {
 </script>
 </body>
 </html>
+Ta strona wyświetla ikonkę awatara razem z jego nazwą (Aqualine!). Jako pierwszy krok użyj funkcji JQuery 'animate' do powiększenia Aqualine'a. Wskazówka: Do wybrania obrazka spróbuj wykorzystać CSS-owy selektor potomka (ang 'descendant selector').
