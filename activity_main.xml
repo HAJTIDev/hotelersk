@@ -11,6 +11,11 @@
             text-align: center;
             margin-top: 100px;
         }
+
+        h1 {
+            font-size: 24px; /* początkowy rozmiar tekstu */
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -22,14 +27,18 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-        // Gdy strona się załaduje, uruchom animację
+        // Kiedy strona się załaduje
         $(function() {
-            // Wybierz obrazek wewnątrz .avatar (używając selektora potomka)
+            // Powiększ obrazek
             $(".avatar img").animate(
-                {
-                    width: "250px"   // powiększ awatar
-                },
-                1000                 // czas trwania animacji: 1 sekunda
+                { width: "250px" },
+                1000
+            );
+
+            // Po zakończeniu animacji obrazka powiększ czcionkę
+            $(".avatar h1").delay(1000).animate(
+                { fontSize: "48px" }, // powiększ tekst
+                1000
             );
         });
     </script>
