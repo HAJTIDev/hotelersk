@@ -1,46 +1,31 @@
+W tym projekcie Twoim celem jest użycie jQuery, aby zbudować interaktywny pokaz slajdów z wieloma zdjęciami i animowanymi przejściami.
+
+Zaczniesz od strony, na której jest tylko jedno zdjęcie i niedziałający przycisk "Następne". Na dobry początek, wymyśl jak sprawić, żeby ten guzik działał i pokazywał kolejne zdjęcie. Następnie dodaj przycisk "Poprzednie", tak aby pokazał poprzednie zdjęcie.
+
+Kiedy już sprawisz, że przyciski będą działać, czas na fajerwerki! Dodaj animowane tranzycje, style CSS (możesz użyć biblioteki, takiej jak np. Bootstrap), aby zdjęcia i przyciski wyglądały czadowo. Możesz też dodać podpisy pod zdjęciami, żeby było wiadomo co na nich jest. Możesz też spróbować ładować zdjęcia dopiero gdy ich potrzebujesz, tak aby przeglądarka użytkownika pobierała dane tylko tych obrazków, które będą oglądane.
+Pracuj nad projektem tak długo, jak chcesz, a następnie kliknij ten przycisk, gdy skończysz.
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Challenge: Animated Avatar</title>
-    <style>
-        body {
-            background: black;
-            color: rgb(102, 181, 217);
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 100px;
-        }
-
-        h1 {
-            font-size: 24px; /* początkowy rozmiar tekstu */
-            transition: all 0.3s ease;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="avatar">
-        <img src="https://www.khanacademy.org/images/avatars/svg/aqualine-sapling.svg" width="150">
-        <h1>Aqualine!</h1>
-    </div>
-
+    <head>
+        <meta charset="utf-8">
+        <title>Project: Interactive slideshow</title>
+        <style>
+        
+        </style>
+    </head>
+    <body>
+    
+    <br>
+    <img src="https://www.kasandbox.org/programming-images/food/mushroom.png" width="400" alt="Mushrooms">
+    <button type="button">Next ➡</button>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-        // Kiedy strona się załaduje
-        $(function() {
-            // Powiększ obrazek
-            $(".avatar img").animate(
-                { width: "250px" },
-                1000
-            );
-
-            // Po zakończeniu animacji obrazka powiększ czcionkę
-            $(".avatar h1").delay(1000).animate(
-                { fontSize: "48px" }, // powiększ tekst
-                1000
-            );
-        });
-    </script>
-</body>
+    
+    $("img").hide();
+    $("img").slideDown();
+    
+    </script> 
+    
+    </body>
 </html>
