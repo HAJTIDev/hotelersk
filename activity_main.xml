@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
 using namespace std;
 
 int main() {
@@ -10,13 +8,15 @@ int main() {
     int n;
     cin >> n;
 
-    vector<int> szczyty(n);
+    int wysokosci[1000000];
+    int maks = -1000000000;
+
     for (int i = 0; i < n; i++) {
-        cin >> szczyty[i];
+        cin >> wysokosci[i];
+        if (wysokosci[i] > maks)
+            maks = wysokosci[i];
     }
 
-    int najwyzszy = *max_element(szczyty.begin(), szczyty.end());
-    cout << najwyzszy << "\n";
-
+    cout << maks << "\n";
     return 0;
 }
