@@ -63,20 +63,19 @@
       let images = $("#slideshow img");
       let caption = $("#caption");
 
-      // pokaż pierwsze zdjęcie
+     
       $(images[current]).fadeIn();
       caption.text($(images[current]).data("caption"));
 
-      // funkcja zmiany slajdu
+  
       function showSlide(index) {
         $(images[current]).fadeOut(400, function() {
-          current = (index + images.length) % images.length; // zapętlenie
+          current = (index + images.length) % images.length;
           $(images[current]).fadeIn(400);
           caption.text($(images[current]).data("caption"));
         });
       }
 
-      // kliknięcia
       $("#next").click(function() {
         showSlide(current + 1);
       });
