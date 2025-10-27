@@ -3,21 +3,25 @@ using namespace std;
 
 int main() {
     int n;
-    if (!(cin >> n)) return 0; // brak danych
-    int cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0;
-    for (int i = 0; i < n; ++i) {
-        long long x;
-        cin >> x;
-        if (x % 2 == 0) ++cnt2;
-        if (x % 3 == 0) ++cnt3;
-        if (x % 4 == 0) ++cnt4;
-        if (x % 5 == 0) ++cnt5;
+    cin >> n;
+
+    int liczby[n];
+    for (int i = 0; i < n; i++)
+        cin >> liczby[i];
+
+    int dzielniki[] = {2, 3, 4, 5};
+    int wyniki[4] = {0};
+
+    for (int x : liczby) {
+        for (int i = 0; i < 4; i++) {
+            if (x % dzielniki[i] == 0)
+                wyniki[i]++;
+        }
     }
 
-    cout << "2:" << cnt2 << '\n';
-    cout << "3:" << cnt3 << '\n';
-    cout << "4:" << cnt4 << '\n';
-    cout << "5:" << cnt5 << '\n';
+    for (int i = 0; i < 4; i++) {
+        cout << dzielniki[i] << ":" << wyniki[i] << endl;
+    }
 
     return 0;
 }
