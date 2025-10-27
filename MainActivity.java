@@ -1,25 +1,35 @@
 #include <iostream>
+#include <vector>
+#include <chrono>
+#include <cstdlib>
+#include <algorithm>
 using namespace std;
+using namespace chrono;
 
 int main() {
-    int n;
-    cin >> n;
+    int N = 1000;
+    vector<int> data(N);
+    generate(data.begin(), data.end(), [](){ return rand() % 10000; });
 
-    int liczba;
-    int podzielne2 = 0, podzielne3 = 0, podzielne4 = 0, podzielne5 = 0;
+    auto bubble = data;
+    auto selection = data;
 
-    for (int i = 0; i < n; i++) {
-        cin >> liczba;
-        if (liczba % 2 == 0) podzielne2++;
-        if (liczba % 3 == 0) podzielne3++;
-        if (liczba % 4 == 0) podzielne4++;
-        if (liczba % 5 == 0) podzielne5++;
+    auto start = high_resolution_clock::now();
+    for (size_t i = 0; i < bubble.size(); ++i)
+        for (size_t j = bubble.size() - 1; j > i; --j)
+            if (bubble[j-1] > bubble[j])
+                swap(bubble[j-1], bubble[j]);
+    auto end = high_resolution_clock::now();
+    cout << "Bubble sort: " << duration_cast<milliseconds>(end - start).count() << " ms\n";
+
+    start = high_resolution_clock::now();
+    for (size_t i = 0; i < selection.size(); ++i) {
+        size_t minIndex = i;
+        for (size_t j = i+1; j < selection.size(); ++j)
+            if (selection[j] < selection[minIndex])
+                minIndex = j;
+        swap(selection[i], selection[minIndex]);
     }
-
-    cout << "2:" << podzielne2 << endl;
-    cout << "3:" << podzielne3 << endl;
-    cout << "4:" << podzielne4 << endl;
-    cout << "5:" << podzielne5 << endl;
-
-    return 0;
+    end = high_resolution_clock::now();
+    cout << "Selection sort: " << duration_cast<milliseconds>(end - start).count() << " ms\n";
 }
