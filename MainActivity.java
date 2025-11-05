@@ -1,97 +1,96 @@
-// 4TP Kotlin2
-// Wszystkie zadania w jednym pliku
-
 fun main() {
-    println("=== Zad. 1 ===")
-    // Zad. 1 – Podstawowa funkcja matematyczna
-    fun suma(a: Int, b: Int): Int = a + b
-    println("Suma 2 + 3 = ${suma(2, 3)}")
-    println("Suma 10 + 25 = ${suma(10, 25)}")
+    while (true) {
+        println("\n===== MENU ZALICZENIA: Podstawy programowania w Kotlinie =====")
+        println("1. Zadanie 1 – Deklaracja zmiennych i typy danych")
+        println("2. Zadanie 2 – Funkcja i operatory arytmetyczne")
+        println("3. Zadanie 3 – Instrukcja warunkowa: Ocena z egzaminu")
+        println("4. Zadanie 4 – Klasa Prostokąt i metoda obliczPole()")
+        println("5. Zadanie 5 – Klasa Student i obliczanie średniej ocen")
+        println("0. Wyjście z programu")
+        print("Wybierz numer zadania: ")
 
-    println("\n=== Zad. 2 ===")
-    // Zad. 2 – Funkcja warunkowa
-    fun czyParzysta(liczba: Int): Boolean = liczba % 2 == 0
-    println("4 jest parzysta? ${czyParzysta(4)}")
-    println("7 jest parzysta? ${czyParzysta(7)}")
-
-    println("\n=== Zad. 3 ===")
-    // Zad. 3 – Klasa "Osoba"
-    class Osoba(val imie: String, val nazwisko: String, val wiek: Int) {
-        fun wizytowka(): String = "$imie $nazwisko"
-    }
-
-    val osoba1 = Osoba("Anna", "Kowalska", 25)
-    val osoba2 = Osoba("Jan", "Nowak", 30)
-    println(osoba1.wizytowka())
-    println(osoba2.wizytowka())
-
-    println("\n=== Zad. 4 ===")
-    // Zad. 4 – Klasa Prostokąt
-    class Prostokat(val szerokosc: Double, val wysokosc: Double) {
-        fun pole(): Double = szerokosc * wysokosc
-    }
-
-    val p1 = Prostokat(4.0, 5.0)
-    val p2 = Prostokat(3.5, 2.2)
-    println("Pole prostokąta p1 = ${p1.pole()}")
-    println("Pole prostokąta p2 = ${p2.pole()}")
-
-    println("\n=== Zad. 5 ===")
-    // Zad. 5 – Dziedziczenie
-    open class Zwierze(val nazwa: String) {
-        open fun dajGlos() {
-            println("$nazwa wydaje jakiś dźwięk")
-        }
-    }
-
-    class Pies(nazwa: String) : Zwierze(nazwa) {
-        override fun dajGlos() {
-            println("$nazwa: Hau hau!")
-        }
-    }
-
-    class Kot(nazwa: String) : Zwierze(nazwa) {
-        override fun dajGlos() {
-            println("$nazwa: Miau!")
-        }
-    }
-
-    val pies = Pies("Burek")
-    val kot = Kot("Mruczek")
-    pies.dajGlos()
-    kot.dajGlos()
-
-    println("\n=== Zad. 6 ===")
-    // Zad. 6 – Konstruktor i inicjalizacja
-    class Student(val oceny: List<Double>) {
-        fun srednia(): Double {
-            return if (oceny.isNotEmpty()) oceny.average() else 0.0
-        }
-    }
-
-    val student = Student(listOf(4.0, 5.0, 3.5, 4.5))
-    println("Średnia studenta: ${student.srednia()}")
-
-    println("\n=== Zad. 7 ===")
-    // Zad. 7 – Własna klasa
-    class BankAccount(val owner: String, var balance: Double) {
-        fun deposit(amount: Double) {
-            balance += amount
-            println("Wpłacono $amount PLN. Nowe saldo: $balance PLN")
-        }
-
-        fun withdraw(amount: Double) {
-            if (amount <= balance) {
-                balance -= amount
-                println("Wypłacono $amount PLN. Pozostało: $balance PLN")
-            } else {
-                println("Brak środków na koncie.")
+        when (readLine()?.toIntOrNull()) {
+            1 -> zadanie1()
+            2 -> zadanie2()
+            3 -> zadanie3()
+            4 -> zadanie4()
+            5 -> zadanie5()
+            0 -> {
+                println("Koniec programu. Powodzenia na zaliczeniu! 👋")
+                return
             }
+            else -> println("Niepoprawny wybór. Spróbuj ponownie.")
         }
     }
+}
 
-    val konto = BankAccount("Adam Kowal", 1000.0)
-    konto.deposit(250.0)
-    konto.withdraw(400.0)
-    konto.withdraw(1000.0)
+// ===================== ZADANIE 1 =====================
+fun zadanie1() {
+    println("\n--- Zadanie 1: Deklaracja zmiennych i typy danych ---")
+    val imie: String = "Jan"
+    var wiek: Int = 25
+    wiek = 20
+    println("Imię: $imie")
+    println("Wiek: $wiek")
+}
+
+// ===================== ZADANIE 2 =====================
+fun zadanie2() {
+    println("\n--- Zadanie 2: Funkcja i operatory arytmetyczne ---")
+
+    fun suma(a: Int, b: Int): Int {
+        return a + b
+    }
+
+    val liczba1 = 15
+    val liczba2 = 25
+
+    val sumaWynik = suma(liczba1, liczba2)
+    val iloczyn = liczba1 * liczba2
+
+    println("Suma $liczba1 + $liczba2 = $sumaWynik")
+    println("Iloczyn $liczba1 * $liczba2 = $iloczyn")
+}
+
+// ===================== ZADANIE 3 =====================
+fun zadanie3() {
+    println("\n--- Zadanie 3: Instrukcja warunkowa – Ocena z egzaminu ---")
+    val wynikProcentowy: Int = 70
+    val minimalnyWymaganyProcent: Int = 75
+
+    if (wynikProcentowy >= minimalnyWymaganyProcent) {
+        println("Gratulacje! Zdajesz część praktyczną egzaminu zawodowego.")
+    } else {
+        println("Nie uzyskujesz zaliczenia części praktycznej (wymagane 75%).")
+    }
+}
+
+// ===================== ZADANIE 4 =====================
+class Prostokat(val szerokosc: Double, val wysokosc: Double) {
+    fun obliczPole(): Double {
+        return szerokosc * wysokosc
+    }
+}
+
+fun zadanie4() {
+    println("\n--- Zadanie 4: Klasa Prostokąt i metoda obliczPole() ---")
+    val prostokat = Prostokat(5.5, 10.0)
+    val pole = prostokat.obliczPole()
+    println("Pole prostokąta o szerokości ${prostokat.szerokosc} i wysokości ${prostokat.wysokosc} = $pole")
+}
+
+// ===================== ZADANIE 5 =====================
+class Student(val imie: String, val oceny: List<Int>) {
+    fun obliczSredniaOcen(): Double {
+        return oceny.average()
+    }
+}
+
+fun zadanie5() {
+    println("\n--- Zadanie 5: Klasa Student i obliczanie średniej ocen ---")
+    val student = Student("Anna", listOf(5, 4, 3, 5, 4))
+    val srednia = student.obliczSredniaOcen()
+    println("Student: ${student.imie}")
+    println("Oceny: ${student.oceny}")
+    println("Średnia ocen: ${"%.2f".format(srednia)}")
 }
