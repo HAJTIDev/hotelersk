@@ -5,16 +5,19 @@
   <title>Bootstrap Alerts Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .color-rise {
-      animation: rise 3s infinite alternate ease-in-out;
+    .alert-stack {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 250px;
+      position: relative;
     }
-    @keyframes rise {
-      from {
-        transform: translateY(20px);
-      }
-      to {
-        transform: translateY(0px);
-      }
+    .alert-stack .alert {
+      animation: slideUp 6s linear infinite;
+    }
+    @keyframes slideUp {
+      0% { transform: translateY(100%); }
+      100% { transform: translateY(-300%); }
     }
   </style>
 </head>
