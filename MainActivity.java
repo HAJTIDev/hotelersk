@@ -1,41 +1,28 @@
 #include <iostream>
 using namespace std;
 
-// Definicja klasy Uczen
-class Uczen {
-public:
-    // Statyczne zmienne klasowe
-    static string s_klasa;
-    static string s_zawod;
-
-    // Funkcja wyświetlająca dane
-    void wyswietlDane();
-};
-
-// Inicjalizacja zmiennych klasowych
-string Uczen::s_klasa = "2a";
-string Uczen::s_zawod = "technik programista";
-
-// Definicja funkcji
-void Uczen::wyswietlDane() {
-    cout << "Klasa: " << s_klasa << endl;
-    cout << "Zawod: " << s_zawod << endl;
-}
-
 int main() {
-    Uczen uczen1;
+    char a, b;
+    cin >> a >> b;
 
-    // Wyświetlenie początkowych wartości
-    uczen1.wyswietlDane();
+    int x, y;
 
-    cout << endl;
+    // pierwszy znak
+    if (a >= '0' && a <= '9')
+        x = a - '0';
+    else
+        x = a - 'A' + 10;
 
-    // Zmiana wartości zmiennych klasowych
-    Uczen::s_klasa = "3b";
-    Uczen::s_zawod = "technik informatyk";
+    // drugi znak
+    if (b >= '0' && b <= '9')
+        y = b - '0';
+    else
+        y = b - 'A' + 10;
 
-    // Ponowne wyświetlenie
-    uczen1.wyswietlDane();
+    int ascii = x * 16 + y;
+
+    cout << ascii << endl;
+    cout << char(ascii) << endl;
 
     return 0;
 }
