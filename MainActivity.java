@@ -1,63 +1,64 @@
-#include <iostream>
-using namespace std;
+using System;
 
-class Calculator {
-public:
-    double add(double a, double b) {
-        return a + b;
+class Notatka
+{
+    // pola statyczne (niedostępne dla klas pochodnych)
+    private static int licznikNotatek = 0;
+
+    // pola instancji
+    protected int id;
+    protected string tytul;
+    protected string tresc;
+
+    // konstruktor
+    public Notatka(string tytul, string tresc)
+    {
+        licznikNotatek++;
+        this.id = licznikNotatek;
+        this.tytul = tytul;
+        this.tresc = tresc;
     }
 
-    double subtract(double a, double b) {
-        return a - b;
+    // metoda 1 – wyświetlanie notatki
+    public void Wyswietl()
+    {
+        Console.WriteLine("----- NOTATKA -----");
+        Console.WriteLine($"ID: {id}");
+        Console.WriteLine($"Tytuł: {tytul}");
+        Console.WriteLine($"Treść: {tresc}");
+        Console.WriteLine("-------------------");
     }
 
-    double multiply(double a, double b) {
-        return a * b;
+    // metoda 2 – edycja treści
+    public void Edytuj()
+    {
+        Console.Write("Podaj nowy tytuł: ");
+        tytul = Console.ReadLine();
+
+        Console.Write("Podaj nową treść: ");
+        tresc = Console.ReadLine();
     }
+}
 
-    double divide(double a, double b) {
-        if (b == 0) {
-            cout << "Blad: dzielenie przez zero!" << endl;
-            return 0;
-        }
-        return a / b;
+class Program
+{
+    static void Main(string[] args)
+    {
+        // tworzenie notatek
+        Notatka n1 = new Notatka("Zakupy", "Chleb, mleko, masło");
+        Notatka n2 = new Notatka("Szkoła", "Sprawdzian z C#");
+
+        // wyświetlanie
+        n1.Wyswietl();
+        n2.Wyswietl();
+
+        // edycja pierwszej notatki
+        n1.Edytuj();
+
+        // ponowne wyświetlenie
+        n1.Wyswietl();
+
+        Console.WriteLine("Naciśnij dowolny klawisz...");
+        Console.ReadKey();
     }
-};
-
-int main() {
-    Calculator calc;
-    double a, b;
-    int choice;
-
-    cout << "Podaj pierwsza liczbe: ";
-    cin >> a;
-    cout << "Podaj druga liczbe: ";
-    cin >> b;
-
-    cout << "\nWybierz operacje:\n";
-    cout << "1. Dodawanie\n";
-    cout << "2. Odejmowanie\n";
-    cout << "3. Mnozenie\n";
-    cout << "4. Dzielenie\n";
-    cout << "Twoj wybor: ";
-    cin >> choice;
-
-    switch (choice) {
-        case 1:
-            cout << "Wynik: " << calc.add(a, b);
-            break;
-        case 2:
-            cout << "Wynik: " << calc.subtract(a, b);
-            break;
-        case 3:
-            cout << "Wynik: " << calc.multiply(a, b);
-            break;
-        case 4:
-            cout << "Wynik: " << calc.divide(a, b);
-            break;
-        default:
-            cout << "Nieprawidlowy wybor!";
-    }
-
-    return 0;
 }
