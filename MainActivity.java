@@ -1,64 +1,60 @@
-using System;
+#include <iostream>
+#include <string>
 
-class Notatka
-{
-    // pola statyczne (niedostępne dla klas pochodnych)
-    private static int licznikNotatek = 0;
+class Student {
+private:
+    std::string imie;
+    int wiek;
+    double* srednia;
 
-    // pola instancji
-    protected int id;
-    protected string tytul;
-    protected string tresc;
-
-    // konstruktor
-    public Notatka(string tytul, string tresc)
+public:
+    // Konstruktor zwykły
+    Student(const std::string& imie, int wiek, double srednia)
+        : imie(imie), wiek(wiek)
     {
-        licznikNotatek++;
-        this.id = licznikNotatek;
-        this.tytul = tytul;
-        this.tresc = tresc;
+        this->srednia = new double(srednia);
     }
 
-    // metoda 1 – wyświetlanie notatki
-    public void Wyswietl()
+    // Konstruktor kopiujący (deep copy)
+    Student(const Student& other)
+        : imie(other.imie), wiek(other.wiek)
     {
-        Console.WriteLine("----- NOTATKA -----");
-        Console.WriteLine($"ID: {id}");
-        Console.WriteLine($"Tytuł: {tytul}");
-        Console.WriteLine($"Treść: {tresc}");
-        Console.WriteLine("-------------------");
+        this->srednia = new double(*(other.srednia));
     }
 
-    // metoda 2 – edycja treści
-    public void Edytuj()
-    {
-        Console.Write("Podaj nowy tytuł: ");
-        tytul = Console.ReadLine();
-
-        Console.Write("Podaj nową treść: ");
-        tresc = Console.ReadLine();
+    // Destruktor
+    ~Student() {
+        delete srednia;
     }
-}
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        // tworzenie notatek
-        Notatka n1 = new Notatka("Zakupy", "Chleb, mleko, masło");
-        Notatka n2 = new Notatka("Szkoła", "Sprawdzian z C#");
-
-        // wyświetlanie
-        n1.Wyswietl();
-        n2.Wyswietl();
-
-        // edycja pierwszej notatki
-        n1.Edytuj();
-
-        // ponowne wyświetlenie
-        n1.Wyswietl();
-
-        Console.WriteLine("Naciśnij dowolny klawisz...");
-        Console.ReadKey();
+    // Setter
+    void setSrednia(double nowaSrednia) {
+        *srednia = nowaSrednia;
     }
+
+    // Metoda wyświetlająca
+    void pokaz() const {
+        std::cout << "Imie: " << imie
+                  << ", Wiek: " << wiek
+                  << ", Srednia: " << *srednia
+                  << std::endl;
+    }
+};
+
+int main() {
+    Student s1("Jan", 20, 4.5);
+
+    // Wywołanie konstruktora kopiującego
+    Student s2 = s1;
+
+    // Zmiana danych w drugim obiekcie
+    s2.setSrednia(3.0);
+
+    std::cout << "Student 1:" << std::endl;
+    s1.pokaz();
+
+    std::cout << "Student 2:" << std::endl;
+    s2.pokaz();
+
+    return 0;
 }
