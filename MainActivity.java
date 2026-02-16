@@ -1,60 +1,21 @@
 #include <iostream>
-#include <string>
-
-class Student {
-private:
-    std::string imie;
-    int wiek;
-    double* srednia;
-
-public:
-    // Konstruktor zwykły
-    Student(const std::string& imie, int wiek, double srednia)
-        : imie(imie), wiek(wiek)
-    {
-        this->srednia = new double(srednia);
-    }
-
-    // Konstruktor kopiujący (deep copy)
-    Student(const Student& other)
-        : imie(other.imie), wiek(other.wiek)
-    {
-        this->srednia = new double(*(other.srednia));
-    }
-
-    // Destruktor
-    ~Student() {
-        delete srednia;
-    }
-
-    // Setter
-    void setSrednia(double nowaSrednia) {
-        *srednia = nowaSrednia;
-    }
-
-    // Metoda wyświetlająca
-    void pokaz() const {
-        std::cout << "Imie: " << imie
-                  << ", Wiek: " << wiek
-                  << ", Srednia: " << *srednia
-                  << std::endl;
-    }
-};
+#include <limits>
 
 int main() {
-    Student s1("Jan", 20, 4.5);
+    std::cout << "=== Informacje o typie int ===\n";
+    std::cout << "Min: " << std::numeric_limits<int>::min() << "\n";
+    std::cout << "Max: " << std::numeric_limits<int>::max() << "\n";
+    std::cout << "Liczba bitow: " << std::numeric_limits<int>::digits << "\n";
+    std::cout << "Czy typ jest ze znakiem: "
+              << std::numeric_limits<int>::is_signed << "\n\n";
 
-    // Wywołanie konstruktora kopiującego
-    Student s2 = s1;
-
-    // Zmiana danych w drugim obiekcie
-    s2.setSrednia(3.0);
-
-    std::cout << "Student 1:" << std::endl;
-    s1.pokaz();
-
-    std::cout << "Student 2:" << std::endl;
-    s2.pokaz();
+    std::cout << "=== Informacje o typie double ===\n";
+    std::cout << "Min: " << std::numeric_limits<double>::min() << "\n";
+    std::cout << "Max: " << std::numeric_limits<double>::max() << "\n";
+    std::cout << "Precyzja (cyfry dziesietne): "
+              << std::numeric_limits<double>::digits10 << "\n";
+    std::cout << "Czy obsluguje nieskonczonosc: "
+              << std::numeric_limits<double>::has_infinity << "\n";
 
     return 0;
 }
