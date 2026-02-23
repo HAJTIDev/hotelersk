@@ -1,21 +1,64 @@
+
 #include <iostream>
-#include <limits>
+#include <cmath>
+using namespace std;
 
-int main() {
-    std::cout << "=== Informacje o typie int ===\n";
-    std::cout << "Min: " << std::numeric_limits<int>::min() << "\n";
-    std::cout << "Max: " << std::numeric_limits<int>::max() << "\n";
-    std::cout << "Liczba bitow: " << std::numeric_limits<int>::digits << "\n";
-    std::cout << "Czy typ jest ze znakiem: "
-              << std::numeric_limits<int>::is_signed << "\n\n";
+class Figura
+{
+public:
+    virtual double pole() = 0;
+    virtual double obwod() = 0;
 
-    std::cout << "=== Informacje o typie double ===\n";
-    std::cout << "Min: " << std::numeric_limits<double>::min() << "\n";
-    std::cout << "Max: " << std::numeric_limits<double>::max() << "\n";
-    std::cout << "Precyzja (cyfry dziesietne): "
-              << std::numeric_limits<double>::digits10 << "\n";
-    std::cout << "Czy obsluguje nieskonczonosc: "
-              << std::numeric_limits<double>::has_infinity << "\n";
+    virtual ~Figura() {}
+};
 
-    return 0;
+class Prostokat : public Figura
+{
+    double a, b;
+
+public:
+    Prostokat(double a, double b) : a(a), b(b) {}
+
+    double pole() override
+    {
+        return a * b;
+    }
+
+    double obwod() override
+    {
+        return 2 * a + 2 * b;
+    }
+};
+
+class Kolo : public Figura
+{
+    double r;
+
+public:
+    Kolo(double r) : r(r) {}
+
+    double pole() override
+    {
+        return M_PI * r * r;
+    }
+
+    double obwod() override
+    {
+        return 2 * M_PI * r;
+    }
+};
+
+int main()
+{
+    Figura* f1 = new Prostokat(4, 5);
+    Figura* f2 = new Kolo(3);
+
+    cout << "Prostokat pole: " << f1->pole() << endl;
+    cout << "Prostokat obwod: " << f1->obwod() << endl;
+
+    cout << "Kolo pole: " << f2->pole() << endl;
+    cout << "Kolo obwod: " << f2->obwod() << endl;
+
+    delete f1;
+    delete f2;
 }
