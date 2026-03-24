@@ -1,37 +1,50 @@
 #include <iostream>
 using namespace std;
 
-void sort3(int *a, int *b, int *c) {
-    int temp;
+// Klasa bazowa
+class Ksztalt {
+public:
+    virtual double oblicz_pole() = 0; // metoda czysto wirtualna
+    virtual ~Ksztalt() {} // wirtualny destruktor
+};
 
-    if (*a > *b) {
-        temp = *a;
-        *a = *b;
-        *b = temp;
-    }
+// Klasa Kolo
+class Kolo : public Ksztalt {
+private:
+    double promien;
 
-    if (*a > *c) {
-        temp = *a;
-        *a = *c;
-        *c = temp;
-    }
+public:
+    Kolo(double r) : promien(r) {}
 
-    if (*b > *c) {
-        temp = *b;
-        *b = *c;
-        *c = temp;
+    double oblicz_pole() override {
+        return 3.14159 * promien * promien;
     }
-}
+};
+
+// Klasa Kwadrat
+class Kwadrat : public Ksztalt {
+private:
+    double bok;
+
+public:
+    Kwadrat(double b) : bok(b) {}
+
+    double oblicz_pole() override {
+        return bok * bok;
+    }
+};
 
 int main() {
-    int x, y, z;
+    Ksztalt* wsk; // wskaźnik polimorficzny
 
-    cout << "Podaj trzy liczby: ";
-    cin >> x >> y >> z;
+    Kolo k(5.0);
+    Kwadrat kw(4.0);
 
-    sort3(&x, &y, &z);
+    wsk = &k;
+    cout << "Pole kola: " << wsk->oblicz_pole() << endl;
 
-    cout << "Posortowane: " << x << " " << y << " " << z << endl;
+    wsk = &kw;
+    cout << "Pole kwadratu: " << wsk->oblicz_pole() << endl;
 
     return 0;
 }
