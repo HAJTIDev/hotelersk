@@ -1,50 +1,60 @@
 #include <iostream>
+#include <string>
+
 using namespace std;
 
-// Klasa bazowa
-class Ksztalt {
-public:
-    virtual double oblicz_pole() = 0; // metoda czysto wirtualna
-    virtual ~Ksztalt() {} // wirtualny destruktor
-};
+char getGender(const string& pesel) {
+    int digit = pesel[9] - '0';
 
-// Klasa Kolo
-class Kolo : public Ksztalt {
-private:
-    double promien;
+    if (digit % 2 == 0)
+        return 'K';
+    else
+        return 'M';
+}
 
-public:
-    Kolo(double r) : promien(r) {}
+bool isValidPesel(const string& pesel) {
+    int weights[10] = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
+    int sum = 0;
 
-    double oblicz_pole() override {
-        return 3.14159 * promien * promien;
+    for (int i = 0; i < 10; i++) {
+        int digit = pesel[i] - '0';
+        sum += digit * weights[i];
     }
-};
 
-// Klasa Kwadrat
-class Kwadrat : public Ksztalt {
-private:
-    double bok;
+    int M = sum % 10;
+    int R;
 
-public:
-    Kwadrat(double b) : bok(b) {}
+    if (M == 0)
+        R = 0;
+    else
+        R = 10 - M;
 
-    double oblicz_pole() override {
-        return bok * bok;
-    }
-};
+    int controlDigit = pesel[10] - '0';
+
+    return R == controlDigit;
+}
 
 int main() {
-    Ksztalt* wsk; // wskaźnik polimorficzny
+    string pesel;
 
-    Kolo k(5.0);
-    Kwadrat kw(4.0);
+    cout << "Podaj numer PESEL: ";
+    cin >> pesel;
 
-    wsk = &k;
-    cout << "Pole kola: " << wsk->oblicz_pole() << endl;
+    if (pesel.length() != 11) {
+        cout << "Nieprawidlowa dlugosc numeru PESEL!" << endl;
+        return 1;
+    }
 
-    wsk = &kw;
-    cout << "Pole kwadratu: " << wsk->oblicz_pole() << endl;
+    char gender = getGender(pesel);
+    if (gender == 'K')
+        cout << "Plec: Kobieta" << endl;
+    else
+        cout << "Plec: Mezczyzna" << endl;
+
+    if (isValidPesel(pesel))
+        cout << "PESEL jest poprawny." << endl;
+    else
+        cout << "PESEL jest NIEPOPRAWNY." << endl;
 
     return 0;
 }
