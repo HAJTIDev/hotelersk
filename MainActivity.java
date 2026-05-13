@@ -1,57 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="#558B2F">
+package com.example.czcionkaapp
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Właściwości czcionki"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:layout_marginBottom="20dp"/>
+import android.os.Bundle
+import android.widget.Button
+import android.widget.SeekBar
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
-    <TextView
-        android:id="@+id/sizeText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Rozmiar: 20"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="10dp"/>
+class MainActivity : AppCompatActivity() {
 
-    <SeekBar
-        android:id="@+id/fontSeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="40"
-        android:progress="20"
-        android:layout_marginBottom="20dp"/>
+    private lateinit var sizeText: TextView
+    private lateinit var quoteText: TextView
+    private lateinit var fontSeekBar: SeekBar
+    private lateinit var changeButton: Button
 
-    <TextView
-        android:id="@+id/quoteText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dzień dobry"
-        android:textSize="20sp"
-        android:textColor="#000000"
-        android:gravity="center"
-        android:layout_marginBottom="20dp"/>
+    private val quotes = arrayOf(
+        "Dzień dobry",
+        "Good morning",
+        "Buenos dias"
+    )
 
-    <Button
-        android:id="@+id/changeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=">>"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#33691E"/>
+    private var currentQuoteIndex = 0
 
-</LinearLayout>
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        sizeText = findViewById(R.id.sizeText)
+        quoteText = findViewById(R.id.quoteText)
+        fontSeekBar = findViewById(R.id.fontSeekBar)
+        changeButton = findViewById(R.id.changeButton)
+
+        fontSeekBar.progress = 20
+
+        fontSeekBar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(
+                seekBar: SeekBar?,
+                progress: Int,
+                fromUser: Boolean
+            ) {
+
+                sizeText.text = "Rozmiar: $progress"
+
+                quoteText.textSize = progress.toFloat()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+
+        changeButton.setOnClickListener {
+
+            currentQuoteIndex++
+
+            if (currentQuoteIndex >= quotes.size) {
+                currentQuoteIndex = 0
+            }
+
+            quoteText.text = quotes[currentQuoteIndex]
+        }
+    }
+}
