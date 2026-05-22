@@ -1,67 +1,67 @@
-package com.example.czcionkaapp
+import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import android.os.Bundle
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+export default function App() {
+  const courses = [
+    "Programowanie w C#",
+    "Angular dla początkujących",
+    "Kurs Django",
+  ];
 
-class MainActivity : AppCompatActivity() {
+  const [name, setName] = useState("");
+  const [courseNumber, setCourseNumber] = useState("");
 
-    private lateinit var sizeText: TextView
-    private lateinit var quoteText: TextView
-    private lateinit var fontSeekBar: SeekBar
-    private lateinit var changeButton: Button
+  const saveCourse = (e) => {
+    e.preventDefault();
 
-    private val quotes = arrayOf(
-        "Dzień dobry",
-        "Good morning",
-        "Buenos dias"
-    )
+    const index = Number(courseNumber) - 1;
 
-    private var currentQuoteIndex = 0
+    console.log(name);
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        sizeText = findViewById(R.id.sizeText)
-        quoteText = findViewById(R.id.quoteText)
-        fontSeekBar = findViewById(R.id.fontSeekBar)
-        changeButton = findViewById(R.id.changeButton)
-
-        fontSeekBar.progress = 20
-
-        fontSeekBar.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-
-            override fun onProgressChanged(
-                seekBar: SeekBar?,
-                progress: Int,
-                fromUser: Boolean
-            ) {
-
-                sizeText.text = "Rozmiar: $progress"
-
-                quoteText.textSize = progress.toFloat()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-        })
-
-        changeButton.setOnClickListener {
-
-            currentQuoteIndex++
-
-            if (currentQuoteIndex >= quotes.size) {
-                currentQuoteIndex = 0
-            }
-
-            quoteText.text = quotes[currentQuoteIndex]
-        }
+    if (courses[index]) {
+      console.log(courses[index]);
+    } else {
+      console.log("Nieprawidłowy numer kursu");
     }
+  };
+
+  return (
+    <div className="container mt-5">
+      <h1>Liczba kursów: {courses.length}</h1>
+
+      <ol>
+        {courses.map((course, index) => (
+          <li key={index}>{course}</li>
+        ))}
+      </ol>
+
+      <form onSubmit={saveCourse} className="mt-4">
+        <div className="mb-3">
+          <label className="form-label">Imię i nazwisko:</label>
+
+          <input
+            type="text"
+            className="form-control"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Numer kursu:</label>
+
+          <input
+            type="number"
+            className="form-control"
+            value={courseNumber}
+            onChange={(e) => setCourseNumber(e.target.value)}
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          Zapisz do kursu
+        </button>
+      </form>
+    </div>
+  );
 }
