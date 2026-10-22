@@ -1,24 +1,42 @@
-#include <iostream>
+#include "pch.h"
+#include "CppUnitTest.h"
 #include "Naglowek.h"
 
-using namespace std;
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-int main() {
-    Film film;
+namespace UnitTestFilm2
+{
+	TEST_CLASS(UnitTestFilm2)
+	{
+	public:
+		
+		TEST_METHOD(TestTytultFilmu)
+		{
+			Film film;
+			Assert::IsTrue(film.getTytul() == "");
 
-    cout << "--- TESTY W KONSOLI ---" << endl;
-    cout << "Stan poczatkowy:" << endl;
-    cout << "Tytul: " << film.getTytul() << endl;
-    cout << "Liczba wypozyczen: " << film.getLiczbaWypozyczen() << endl;
+			film.setTytul("Avatar");
+			Assert::IsTrue(film.getTytul() == "Avatar");
+		}
 
-    film.setTytul("Incepcja");
-    cout << "\nPo ustawieniu tytulu na 'Incepcja':" << endl;
-    cout << "Pobrany tytul (get): " << film.getTytul() << endl;
+		TEST_METHOD(TestOgraniczeniaDlugosciTytulu)
+		{
+			Film film;
+			film.setTytul("12345678901234567890"); 
+			Assert::IsTrue(film.getTytul() == "12345678901234567890");
 
-    cout << "\nTest inkrementacji:" << endl;
-    cout << "Przed: " << film.getLiczbaWypozyczen() << endl;
-    film.inkrementujLiczbeWypozyczen();
-    cout << "Po: " << film.getLiczbaWypozyczen() << endl;
+			film.setTytul("To jest zdecydowanie za dlugi tytul filmu");
+			Assert::IsTrue(film.getTytul() == "12345678901234567890");
+		}
 
-    return 0;
+		TEST_METHOD(TestInkrementacji)
+		{
+			Film film;
+			Assert::AreEqual(0, film.getLiczbaWypozyczen());
+
+			film.inkrementujLiczbeWypozyczen();
+
+			Assert::AreEqual(1, film.getLiczbaWypozyczen());
+		}
+	};
 }
