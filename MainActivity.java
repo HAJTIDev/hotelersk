@@ -1,3 +1,58 @@
+/////// Naglowek.h ///////
+#pragma once
+#include <string>
+
+class Film {
+protected:
+    std::string tytul = "";
+    int liczbaWypozyczen = 0;
+public:
+    void setTytul(std::string tytulFilmu) {
+        if (tytulFilmu.length() <= 20) {
+            tytul = tytulFilmu;
+        }
+    }
+    
+    std::string getTytul() {
+        return tytul;
+    }
+    
+    int getLiczbaWypozyczen() {
+        return liczbaWypozyczen;
+    }
+    
+    void inkrementujLiczbeWypozyczen() {
+        liczbaWypozyczen++;
+    }
+};
+
+/////// film2.cpp ///////
+#include <iostream>
+#include "Naglowek.h"
+
+using namespace std;
+
+int main() {
+    Film film;
+
+    cout << "--- TESTY W KONSOLI ---" << endl;
+    cout << "Stan poczatkowy:" << endl;
+    cout << "Tytul: " << film.getTytul() << endl;
+    cout << "Liczba wypozyczen: " << film.getLiczbaWypozyczen() << endl;
+
+    film.setTytul("Incepcja");
+    cout << "\nPo ustawieniu tytulu na 'Incepcja':" << endl;
+    cout << "Pobrany tytul (get): " << film.getTytul() << endl;
+
+    cout << "\nTest inkrementacji:" << endl;
+    cout << "Przed: " << film.getLiczbaWypozyczen() << endl;
+    film.inkrementujLiczbeWypozyczen();
+    cout << "Po: " << film.getLiczbaWypozyczen() << endl;
+
+    return 0;
+}
+
+/////// UnitTestFilm2.cpp ///////
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "Naglowek.h"
