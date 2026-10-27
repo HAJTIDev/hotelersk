@@ -1,97 +1,93 @@
-/////// Naglowek.h ///////
-#pragma once
+#include <iostream>
 #include <string>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
 
-class Film {
-protected:
-    std::string tytul = "";
-    int liczbaWypozyczen = 0;
+class Kosc {
 public:
-    void setTytul(std::string tytulFilmu) {
-        if (tytulFilmu.length() <= 20) {
-            tytul = tytulFilmu;
+    // Pole statyczne przechowujące liczbę instancji
+    static int liczbaInstancji;
+
+    // Pola ogólnodostępne
+    std::vector<std::string> nazwyPlikow = {
+        "kosc0.png", "kosc1.png", "kosc2.png", "kosc3.png", 
+        "kosc4.png", "kosc5.png", "kosc6.png"
+    };
+    int liczbaOczek;
+    int idPliku;
+    bool czyDostepna;
+
+    // Konstruktor jednoargumentowy
+    Kosc(int wartosc) {
+        if (wartosc < 1 || wartosc > 6) {
+            wartosc = 0;
+        }
+        liczbaOczek = wartosc;
+        idPliku = wartosc;
+        czyDostepna = true;
+        liczbaInstancji++;
+    }
+
+    // Konstruktor bezargumentowy
+    Kosc() {
+        int wylosowana = (std::rand() % 6) + 1;
+        liczbaOczek = wylosowana;
+        idPliku = wylosowana;
+        czyDostepna = true;
+        liczbaInstancji++;
+    }
+
+    // Metoda realizująca rzut kością (tylko gdy kość jest dostępna)
+    void rzucKosc() {
+        if (czyDostepna) {
+            int wylosowana = (std::rand() % 6) + 1;
+            liczbaOczek = wylosowana;
+            idPliku = wylosowana;
         }
     }
-    
-    std::string getTytul() {
-        return tytul;
+
+    // Metoda blokująca kość
+    void zablokujKosc() {
+        czyDostepna = false;
     }
-    
-    int getLiczbaWypozyczen() {
-        return liczbaWypozyczen;
-    }
-    
-    void inkrementujLiczbeWypozyczen() {
-        liczbaWypozyczen++;
+
+    // Metoda zwracająca wartość wyrzuconą w postaci słownej
+    std::string pobierzWartoscTekstowo() const {
+        switch (liczbaOczek) {
+            case 1: return "jeden";
+            case 2: return "dwa";
+            case 3: return "trzy";
+            case 4: return "cztery";
+            case 5: return "pięć";
+            case 6: return "sześć";
+            default: return "zero";
+        }
     }
 };
 
-/////// film2.cpp ///////
-#include <iostream>
-#include "Naglowek.h"
-
-using namespace std;
+// Inicjalizacja składowej statycznej
+int Kosc::liczbaInstancji = 0;
 
 int main() {
-    Film film;
+    // Inicjalizacja generatora liczb pseudolosowych
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-    cout << "--- TESTY W KONSOLI ---" << endl;
-    cout << "Stan poczatkowy:" << endl;
-    cout << "Tytul: " << film.getTytul() << endl;
-    cout << "Liczba wypozyczen: " << film.getLiczbaWypozyczen() << endl;
+    std::cout << "=== TWORZENIE OBIEKTU 1 (konstruktor bezargumentowy) ===\n";
+    Kosc kosc1;
+    std::cout << "Liczba utworzonych instancji: " << Kosc::liczbaInstancji << "\n";
+    std::cout << "Liczba oczek: " << kosc1.liczbaOczek << " (" << kosc1.pobierzWartoscTekstowo() << ")\n";
+    std::cout << "Nazwa pliku graficznego: " << kosc1.nazwyPlikow[kosc1.idPliku] << "\n\n";
 
-    film.setTytul("Incepcja");
-    cout << "\nPo ustawieniu tytulu na 'Incepcja':" << endl;
-    cout << "Pobrany tytul (get): " << film.getTytul() << endl;
+    std::cout << "=== TWORZENIE OBIEKTU 2 (konstruktor jednoargumentowy) ===\n";
+    int podanaWartosc;
+    std::cout << "Podaj liczbe oczek dla kosci (1-6): ";
+    std::cin >> podanaWartosc;
 
-    cout << "\nTest inkrementacji:" << endl;
-    cout << "Przed: " << film.getLiczbaWypozyczen() << endl;
-    film.inkrementujLiczbeWypozyczen();
-    cout << "Po: " << film.getLiczbaWypozyczen() << endl;
+    Kosc kosc2(podanaWartosc);
+    std::cout << "Liczba utworzonych instancji: " << Kosc::liczbaInstancji << "\n";
+    std::cout << "Liczba oczek: " << kosc2.liczbaOczek << " (" << kosc2.pobierzWartoscTekstowo() << ")\n";
+    std::cout << "Nazwa pliku graficznego: " << kosc2.nazwyPlikow[kosc2.idPliku] << "\n";
 
     return 0;
-}
-
-/////// UnitTestFilm2.cpp ///////
-#include "pch.h"
-#include "CppUnitTest.h"
-#include "Naglowek.h"
-
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-namespace UnitTestFilm2
-{
-	TEST_CLASS(UnitTestFilm2)
-	{
-	public:
-		
-		TEST_METHOD(TestTytultFilmu)
-		{
-			Film film;
-			Assert::IsTrue(film.getTytul() == "");
-
-			film.setTytul("Avatar");
-			Assert::IsTrue(film.getTytul() == "Avatar");
-		}
-
-		TEST_METHOD(TestOgraniczeniaDlugosciTytulu)
-		{
-			Film film;
-			film.setTytul("12345678901234567890"); 
-			Assert::IsTrue(film.getTytul() == "12345678901234567890");
-
-			film.setTytul("To jest zdecydowanie za dlugi tytul filmu");
-			Assert::IsTrue(film.getTytul() == "12345678901234567890");
-		}
-
-		TEST_METHOD(TestInkrementacji)
-		{
-			Film film;
-			Assert::AreEqual(0, film.getLiczbaWypozyczen());
-
-			film.inkrementujLiczbeWypozyczen();
-
-			Assert::AreEqual(1, film.getLiczbaWypozyczen());
-		}
-	};
 }
